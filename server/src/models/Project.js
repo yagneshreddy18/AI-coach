@@ -1,0 +1,38 @@
+import mongoose from 'mongoose';
+
+const projectSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    title: {
+      type: String,
+      required: [true, 'Project title is required'],
+      trim: true,
+    },
+    description: {
+      type: String,
+      default: '',
+    },
+    deadline: {
+      type: Date,
+      default: null,
+    },
+    status: {
+      type: String,
+      enum: ['planning', 'in-progress', 'completed', 'on-hold'],
+      default: 'planning',
+    },
+    color: {
+      type: String,
+      default: '#6366f1',
+    },
+  },
+  { timestamps: true }
+);
+
+projectSchema.index({ userId: 1 });
+
+export default mongoose.model('Project', projectSchema);
